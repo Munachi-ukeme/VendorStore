@@ -6,7 +6,7 @@ const Category = require("../models/Category")
 // -----------------------------------
 const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find()
+    const categories = await Category.find({ sellerId: req.seller._id})
     res.json(categories)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -22,12 +22,12 @@ const addCategory = async (req, res) => {
     const { name } = req.body
 
     // check if category name already exists for this seller
-    const existing = await Category.findOne({name})
+    const existing = await Category.findOne({ sellerId: req.seller._id, name})
     if (existing) {
       return res.status(400).json({ message: "Category already exists" })
     }
 
-    const category = await Category.create({name})
+    const category = await Category.create({ sellerId: req.seller._id, name})
 
     res.status(201).json({
       message: "Category added successfully",

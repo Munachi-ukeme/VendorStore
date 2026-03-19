@@ -2,7 +2,7 @@
 const express = require("express")
 const router = express.Router()
 const { getCategories, addCategory, deleteCategory } = require("../controllers/categoryController")
-const { protect } = require("../middleware/auth")
+const { protect } = require("../middleware/authmiddleware")
 const { checkCategoryLimit } = require("../middleware/planLimits")
 
 // GET /api/categories — get all categories
