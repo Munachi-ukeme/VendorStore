@@ -21,10 +21,12 @@ app.use(express.json()); // allows app to read JSON from requests
 const authRoutes = require("./routes/auth")
 const categoryRoutes = require("./routes/categories")
 const productRoutes = require("./routes/products")
+const storeRoutes = require("./routes/store")
 
 app.use("/api/auth", authRoutes)
 app.use("/api/categories", categoryRoutes)
 app.use("/api/products", productRoutes)
+app.use("/api/store", storeRoutes)
 
 
 // test route
