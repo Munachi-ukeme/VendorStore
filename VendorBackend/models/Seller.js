@@ -62,10 +62,21 @@ const sellerSchema = new mongoose.Schema(
             default: "basic",
         },
 
+        address: {
+                type: String,
+                default: "",
+        },
+
     isActive: {
       type: Boolean,
       default: true, // store is active by default when created
     },
+
+    subscriptionStart: {
+      type: Date,
+      default: null, // set when seller first pays
+    },
+
     subscriptionEnd: {
       type: Date,
       default: null, // null until i activate their subscription

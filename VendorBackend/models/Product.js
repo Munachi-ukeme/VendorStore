@@ -25,6 +25,16 @@ const productSchema = new mongoose.Schema(
             required: true, // e.g 15000
         },
 
+        colors: {
+        type: [String],
+        default: [], // e.g ["Red", "Blue", "Black"]
+        },
+        
+        sizes: {
+        type: [String],
+        default: [], // e.g ["S", "M", "L", "XL"]
+         },
+
         description: {
             type: String,
             default: "",
