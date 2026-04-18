@@ -25,7 +25,7 @@ if (!errors.isEmpty()) {
   return res.status(400).json({ message: errors.array()[0].msg })
 }
 
-        const {businessName, email, password, whatsappNumber } = req.body
+        const {businessName, email, password, whatsappNumber, plan } = req.body
 
         //1. Check if email already exists
         const existingSeller = await Seller.findOne({email})
@@ -55,6 +55,7 @@ if (!errors.isEmpty()) {
       password: hashedPassword,
       whatsappNumber,
       slug,
+      plan: plan || "basic", // defaults to basic if not specified
     })
 
     // 6. Generate JWT token
