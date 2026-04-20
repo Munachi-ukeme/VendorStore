@@ -21,4 +21,6 @@ const categorySchema = new mongoose.Schema(
     }
 )
 
+categorySchema.index({ sellerId: 1})
+
 module.exports = mongoose.model("Category", categorySchema)
