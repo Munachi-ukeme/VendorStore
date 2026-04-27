@@ -10,6 +10,8 @@ function LoginPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
     //login() comes from Authcontent, saves token and seller to localstorage and state
     const { login } = useAuth();
     const handleSubmit = async (e) =>{
@@ -63,7 +65,7 @@ function LoginPage() {
                         <input
                         type="password"
                         className={styles.input}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Enter your password"
                         required
                         />
