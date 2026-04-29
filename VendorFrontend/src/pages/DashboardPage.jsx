@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import styles from "./DashboardPage.module.css";
 
-function Dashboard() {
+function DashboardPage() {
     const {seller} = useAuth();
 
     return(
@@ -17,3 +17,5 @@ function Dashboard() {
     );
 
 }
+
+export default DashboardPage;

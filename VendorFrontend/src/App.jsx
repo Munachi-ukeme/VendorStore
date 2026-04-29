@@ -2,6 +2,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import LoginPage from "./pages/LoginPage";
+import DashboardLayout from "./sellerComponent/DashboardLayout";
+import DashboardPage from "./pages/DashboardPage";
 
 function App(){
   return (
@@ -22,25 +24,33 @@ function App(){
       {/* Protected seller routes - wrapped in protectedRoute*/}
       <Route path="/dashboard" element={
         <ProtectedRoute>
-          <div>Dashboard</div>
+          <DashboardLayout>
+            <DashboardPage/>
+          </DashboardLayout>
         </ProtectedRoute>
         }/>
 
       <Route path="/dashboard/products" element={
         <ProtectedRoute>
-          <div>Products</div>
+          <DashboardLayout>
+            <div>products</div>
+          </DashboardLayout>
         </ProtectedRoute>
         }/>
 
       <Route path="/dashboard/categories" element={
         <ProtectedRoute>
-          <div>Categories</div>
+          <DashboardLayout>
+            <div>Categories</div>
+          </DashboardLayout>
         </ProtectedRoute>
         }/>
 
       <Route path="/dashboard/settings" element={
         <ProtectedRoute>
-          <div>Settings</div>
+          <DashboardLayout>
+            <div>Settings</div>
+          </DashboardLayout>
         </ProtectedRoute>
         
         }/>
