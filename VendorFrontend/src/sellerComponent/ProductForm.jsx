@@ -181,8 +181,181 @@ function ProductForm ({ editingProduct, onSaved, onCancel }) {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
+            <h3 className={styles.title}>
+                {editingProduct ? "Edit Product" : "Add New Product"}
+            </h3>
 
+            {/* error message */}
+            {error && <p className={styles.error}>{error}</p>}
+
+            {/* product name */}
+            <div className={styles.field}>
+                <label className={styles.label}>Product Name</label>
+                <input
+                type="text"
+                value={name}
+                className={styles.input}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g Ankara Gown"
+                />
+            </div>
+
+            
+            {/* price */}
+            <div className={styles.field}>
+                <label className={styles.label}>Price</label>
+                <input
+                type="number"
+                value={price}
+                className={styles.input}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="e.g 15,000.00"
+                />
+            </div>
+
+
+            {/* description */}
+            <div className={styles.field}>
+                <label className={styles.label}>Description</label>
+                <textarea
+                value={description}
+                className={styles.textarea}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe your product..."
+                rows={4}
+                />
+            </div>
+
+
+            {/* category dropdown */}
+            <div className={styles.field}>
+                <label className={styles.label}>Category</label>
+                <select
+                value={categoryId}
+                className={styles.select}
+                onChange={(e) => setCategoryId(e.target.value)} >
+                    <option value=""> Select a category</option>
+                    {categories.map((cat) =>(
+                        <option key={cat._id} value={cat._id}>
+                            {cat.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* images */}
+            <div className={styles.field}>
+                <label className={styles.label}>Images (max {maxImages}for your plan)</label>
+                <input
+                type="file"
+                accept="image/*"
+                className={styles.input}
+                onChange={handleImageChange}
+                multiple
+                />
+                <p className={styles.hint}>
+                    Your plan allows {maxImages} image
+                    {maxImages > 1 ? "s" : ""} per product
+                </p>
+            </div>
+
+            {/* color */}
+            <div className={styles.field}>
+                <label className={styles.label}> Colors (optional)</label>
+                <div className={styles.tagInput}>
+                <input
+                type="text"
+                className={styles.input}
+                value={colorInput}
+                onChange={(e) => setColorInput(e.target.value)}
+                placeholder="e.g Red"
+                onKeyDown={(e) => {
+                    if (e.key === "Enter"){
+                        handleAddColor();
+                    }
+                }}
+                />
+                <button
+                className={styles.addTagButton}
+                onClick={handleAddColor}
+                >
+                    Add
+                </button>
+            </div>
+
+            {/* color tags */}
+            {colors.length > 0 ? (
+                <div className={styles.tags}>
+                    {colors.map((color) =>(
+                        <div key={color} className={styles.tag}>
+                            <span>{color}</span>
+                            <button 
+                            className={styles.removeTag}
+                            onClick={() => handleRemoveColor(color)}
+                            >
+                                x
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
         </div>
+
+            {/* sizes */}
+            <div className={styles.field}>
+                <label className={styles.label}> Sizes (optional)</label>
+
+                <div className={styles.tagInput}>
+                    <input
+                    type="text" 
+                    className={styles.input}
+                    value={sizeInput}
+                    onChange={(e) => setSizeInput(e.target.value)}
+                    placeholder="e.g M, XL"
+                    onKeyDown={(e) =>{
+                        if(e.key === "Enter"){
+                            handleAddSize();
+                        }
+                    }}
+                    />
+                    <button
+                    className={styles.addTagButton}
+                    onClick={handleAddSize}
+                    >
+                        Add
+                    </button>
+                </div>
+
+                {/* size tags */}
+                {sizes.length > 0 ? (
+                    <div className={styles.tags}>
+                        {sizes.map((size) =>(
+                            <div key={size} className={styles.tag}>
+                                <span>{size}</span>
+                                <button className={styles.removeTag} onClick={() => handleRemoveSize(size)}>
+                                    x
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                ) : null}
+            </div>
+
+            {/* button */}
+            <div className={styles.buttons}>
+                <button className={styles.cancelButton} onClick={onCancel}>
+                    Cancel
+                </button>
+
+                <button className={styles.saveButton} onClick={handleSave} disabled={loading}>
+                    {loading ? "Saving..." : editingProduct ? "Update Product" : "Add Product"}
+                </button>
+            </div>
+        </div>
+
+        
     );
 }
+
+export default ProductForm;

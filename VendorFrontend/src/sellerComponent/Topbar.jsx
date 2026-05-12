@@ -13,7 +13,7 @@ function Topbar ({ onOpen}){
         pageTitle = "Dashboard";
     } else if(location.pathname === "/dashboard/products"){
         pageTitle = "Products";
-    } else if(location.pathname === "/dashboard/category") {
+    } else if(location.pathname === "/dashboard/categories") {
         pageTitle = "Categories"
     } else if(location.pathname === "/dashboard/settings"){
         pageTitle = "Settings"
