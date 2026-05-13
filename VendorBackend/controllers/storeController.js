@@ -1,6 +1,7 @@
 const Seller = require("../models/Seller")
 const Product = require("../models/Product")
 const Category = require("../models/Category")
+const {cloudinary} = require("../config/cloudinary")
 
 // -----------------------------------
 // GET FULL STORE BY SLUG
@@ -88,6 +89,98 @@ const getProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
+
 }
 
-module.exports = { getStore, getProduct }
+  //UPDATE STORE SETTINGS
+  //PUT /api/store/settings (protected - seller only)
+
+  const updateSettings = async (req, res) =>{
+    try{
+      ///1. find the seller from the JWT token
+      const seller = await Seller.findById(req.seller.id)
+
+      if (!seller){
+        return res.status(404).json({ message: "Seller not found"})
+      }
+
+      //2. Update basic fields if they were sent
+      if (req.body.businessName) {
+        seller.businessName = req.body.businessName
+      }
+
+      if (req.body.tagline !== undefined) {
+        seller.tagline = req.body.tagline
+      }
+
+      if (req.body.whatsappNumber) {
+        seller.whatsappNumber = req.body.whatsappNumber
+      }
+
+      if(req.body.address !== undefined){
+        seller.address = req.body.address
+      }
+
+      //3. Update brand colors - pro and premium only
+      if (seller.plan === "pro" || seller.plan === "premium") {
+        if(req.body.primaryColor){
+          seller.primaryColor = req.body.primaryColor
+        }
+
+        if (req.body.secondaryColor) {
+          seller.secondaryColor = req.body.secondaryColor
+        }
+      }
+
+      //4. Upload logo to cloudinary if a new one was sent
+      if (req.files && req.files.logo){
+        const logoResult = await cloudinary.uploader.upload(
+          req.files.logo[0].path,
+          {
+            folder: "moonstore",
+          }
+        )
+        seller.logo = logoResult.secure_url
+      }
+
+      //5. Upload banner - pro and premium only
+      if(req.files && req.files.bannerImage) {
+        if (seller.plan === "pro" || seller.plan === "premium"){
+          const bannerResult = await cloudinary.uploader.upload(
+            req.files.bannerImage[0].path,
+            {
+              folder: "moonstore"
+            }
+          )
+          seller.bannerImage = bannerResult.secure_url
+        }
+      }
+
+      //6. save updated seller to mongoDB
+      await seller.save()
+
+      //7. Return updated seller without password
+      res.json({
+        message: "Store settings updated successfully",
+        seller: {
+          businessName: seller.businessName,
+          tagline: seller.tagline,
+          whatsappNumber: seller.whatsappNumber,
+          address: seller.address,
+          logo: seller.logo,
+          bannerImage: seller.bannerImage,
+          primaryColor: seller.primaryColor,
+          secondaryColor: seller.secondaryColor,
+          plan: seller.plan,
+          slug: seller.slug,
+        },
+      })
+
+
+    } catch(error){
+      res.status(500).json({ message: error.message})
+    }
+    
+}
+
+module.exports = { getStore, getProduct, updateSettings }
