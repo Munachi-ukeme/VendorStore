@@ -17,23 +17,18 @@
     margin-bottom: 24px;
 }
 
-.title{
-    font-size: 22px;
-    font-weight: 800;
-    color: #1e1b2e;
-}
-
 /* add product button */
 .addButton{
     padding: 11px 24px;
     background-color: #7c3aed;
     color: #ffffff;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 700;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s;
+    margin-left: 210px;
 }
 
 .addButton:hover{

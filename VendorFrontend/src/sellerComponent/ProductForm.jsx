@@ -246,7 +246,7 @@ function ProductForm ({ editingProduct, onSaved, onCancel }) {
 
             {/* images */}
             <div className={styles.field}>
-                <label className={styles.label}>Images (max {maxImages}for your plan)</label>
+                <label className={styles.label}>Images (max {maxImages} for your plan)</label>
                 <input
                 type="file"
                 accept="image/*"

@@ -6,6 +6,7 @@ import DashboardLayout from "./sellerComponent/DashboardLayout";
 import DashboardPage from "./pages/DashboardPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProductPage from "./pages/ProductsPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function App(){
   return (
@@ -43,7 +44,7 @@ function App(){
       <Route path="/dashboard/categories" element={
         <ProtectedRoute>
           <DashboardLayout>
-            <div>Categories</div>
+            <CategoriesPage />
           </DashboardLayout>
         </ProtectedRoute>
         }/>

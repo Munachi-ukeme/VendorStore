@@ -99,6 +99,19 @@ export const createCategory = async(name) =>{
     return res.json();
 };
 
+export const updateCategory = async (id, name) =>{
+    try{
+        const res = await fetch(`${BASE_URL}/categories/${id}`, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ name }),
+        });
+        return res.json();
+    } catch (error){
+        return{ error: "Failed to update category."};
+    }
+};
+
 export const deleteCategory = async(id) =>{
     const res = await fetch(`${BASE_URL}/categories/${id}`, {
         method: "DELETE",

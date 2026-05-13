@@ -94,7 +94,7 @@ function ProductPage (){
         <div className={styles.container}>
             {/* page header */}
             <div className={styles.header}>
-                <h2 className={styles.title}>Products</h2>
+                
 
                 {/* only show Add product button when form is hidden */}
                 {showForm ? null : (

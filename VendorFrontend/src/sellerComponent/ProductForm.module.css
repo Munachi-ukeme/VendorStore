@@ -114,4 +114,87 @@
     cursor: pointer;
     transition: background-color 0.2s;
     white-space: nowrap;
+    margin-left: 5px;
+}
+
+.addTagButton:hover{
+    background-color: #6d28d9;
+}
+
+/* tags wrapper */
+.tags{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ede9fe;
+    color: black;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+/* x button on each tag */
+.removeTag{
+    background: none;
+    border: none;
+    color: rgb(226, 14, 14);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    font-weight: 700;
+    margin-left: 4px;
+    margin-right: 10px;
+}
+
+.removeTag:hover{
+    color: #dc2626;
+}
+/* save and cancel button */
+
+.buttons{
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.cancelButton{
+    flex: 1;
+    padding: 13px;
+    background-color: #f3f4f6;
+    color: #374151;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cancelButton:hover{
+    background-color: #e5e7eb;
+}
+
+.saveButton{
+    flex: 1;
+    padding: 13px;
+    background-color: #7c3aed;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.saveButton:hover{
+    background-color: #6d28d9;
+}
+
+.saveButton:disabled{
+    background-color: #a78bfa;
+    cursor: pointer;
 }
