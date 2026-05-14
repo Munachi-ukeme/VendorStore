@@ -29,11 +29,49 @@ const addCategory = async (req, res) => {
 
     const category = await Category.create({ sellerId: req.seller._id, name})
 
-    res.status(201).json({
-      message: "Category added successfully",
-      category,
-    })
+    res.status(201).json(category)
   } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+// UPDATE CATEGORY
+const updateCategory = async (req, res) =>{
+  try{
+    const {name} = req.body
+
+    // check if new name is provided
+    if(!name){
+      return res.status(400).json({message: "Category name is required"})
+    }
+
+    // find the category and make sure it belongs to this seller
+    const catagory = await Category.findOne({
+      _id: req.params.id,
+      sellerId: req.seller._id,
+    })
+
+    if (!category){
+      return res.status(404).json([ message: "Category not found"])
+    }
+
+    // check if another category with the same name already exists
+    const existing = await Category.findOne({
+      sellerId: req.seller._id,
+      name,
+      _id: { $ne: req.params.id },
+    })
+
+    if (existing){
+      return res.status(400).json({ message: "Category name already exists"})
+    }
+
+    // update the name
+    category.name = name
+    await category.save()
+
+    res.json(category)
+  } catch (error){
     res.status(500).json({ message: error.message })
   }
 }
@@ -59,4 +97,4 @@ const deleteCategory = async (req, res) => {
   }
 }
 
-module.exports = { getCategories, addCategory, deleteCategory }
+module.exports = { getCategories, addCategory, updateCategory, deleteCategory }

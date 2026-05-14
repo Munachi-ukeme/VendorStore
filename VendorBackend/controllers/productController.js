@@ -67,6 +67,10 @@ const addProduct = async (req, res) => {
       images = req.files.map(file => file.path)
     }
 
+    // parse colors and sizes from JSON string
+    const colors = req.body.colors ? JSON.parse(req.body.colors) : []
+    const sizes = req.body.sizes ? JSON.parse(req.body.sizes) : []
+
     // 6. Create product
     const product = await Product.create({
       sellerId: req.seller._id,
@@ -76,12 +80,11 @@ const addProduct = async (req, res) => {
       description,
       images,
       slug,
+      colors,
+      sizes,
     })
 
-    res.status(201).json({
-      message: "Product added successfully",
-      product,
-    })
+    res.status(201).json(product)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -107,6 +110,14 @@ const editProduct = async (req, res) => {
     product.categoryId = categoryId || product.categoryId
     product.inStock = inStock !== undefined ? inStock : product.inStock
 
+    if (req.body.colors){
+        product.colors = JSON.parse(req.body.colors)
+      }
+
+      if (req.body.sizes){
+        product.sizes = JSON.parse(req.body.sizes)
+      }
+
     // If new images uploaded — delete old ones and replace
     if (req.files && req.files.length > 0) {
       const imageLimits = { basic: 1, pro: 2, premium: 3 }
@@ -118,10 +129,11 @@ const editProduct = async (req, res) => {
         })
       }
 
+
       // Delete old images from Cloudinary
       for (const imageUrl of product.images) {
         const publicId = imageUrl.split("/").pop().split(".")[0]
-        await cloudinary.uploader.destroy(`vendorstore/${publicId}`)
+        await cloudinary.uploader.destroy(`moonstore/${publicId}`)
       }
 
       product.images = req.files.map(file => file.path)
@@ -134,10 +146,7 @@ const editProduct = async (req, res) => {
 
     const updatedProduct = await product.save()
 
-    res.json({
-      message: "Product updated successfully",
-      product: updatedProduct,
-    })
+    res.json(updatedProduct)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -157,7 +166,7 @@ const deleteProduct = async (req, res) => {
     // Delete all images from Cloudinary
     for (const imageUrl of product.images) {
       const publicId = imageUrl.split("/").pop().split(".")[0]
-      await cloudinary.uploader.destroy(`vendorstore/${publicId}`)
+      await cloudinary.uploader.destroy(`moonstorestore/${publicId}`)
     }
 
     await product.deleteOne()
