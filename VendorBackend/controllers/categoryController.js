@@ -52,7 +52,7 @@ const updateCategory = async (req, res) =>{
     })
 
     if (!category){
-      return res.status(404).json([ message: "Category not found"])
+      return res.status(404).json({ message: "Category not found"})
     }
 
     // check if another category with the same name already exists
