@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getCategories, createCategory, updateCategory, deleteCategory } from "../api/api";
-import { set } from "mongoose";
+import styles from "./CategoryManager.module.css"
 
 function CategoryManager (){
     const [categories, setCategories] = useState([]);
@@ -25,7 +25,7 @@ function CategoryManager (){
 
     // fetch all categories when page loads 
     useEffect(() =>{
-        const loadCategories = async ()=>{
+        const loadingCategories = async ()=>{
             const data = await getCategories();
 
             if (data.error) {
@@ -34,7 +34,13 @@ function CategoryManager (){
                 return;
             }
 
-            setCategories(data);
+            // make sure data is an array
+            if(Array.isArray(data)){
+                setCategories(data);
+            } else{
+                setCategories([]);
+            }
+
             setLoading(false);
         };
 
@@ -56,57 +62,56 @@ function CategoryManager (){
         setError(null);
     };
 
+
     // seller clicks add or update button
-    const handleSave = async () =>{
-        setError(null);
-        setSuccess(null);
+const handleSave = async () => {
+  setError(null);
+  setSuccess(null);
+  
+  const trimmed = input.trim();
+  if (!trimmed) {
+    setError("Category name cannot be empty.");
+    return;
+  }
 
-        const trimmed = input.trim();
+  setSaveLoading(true);
 
-        if (!trimmed){
-            setError("Category name cannot be empty.");
-            return;
-        }
+  if (editingCategory) {
+    // UPDATE EXISTING CATEGORY
+    const data = await updateCategory(editingCategory._id, trimmed);
+    setSaveLoading(false);
 
-        setSaveLoading(true);
+    if (data.error) {
+      setError(data.error);
+      return;
+    }
 
-        if (editingCategory){
-            // update existing category
-            const data = await updateCategory(editingCategory._id, trimmed);
-            setSaveLoading(false)
+    const currentCategories = Array.isArray(categories) ? categories : [];
+    setCategories(
+      currentCategories.map((cat) =>
+        cat._id === editingCategory._id ? data : cat
+      )
+    );
+    setEditingCategory(null);
+    setInput("");
+    setSuccess("Category updated successfully.");
 
-            if (data.error){
-                setError(data.error);
-                return;
-            }
+  } else {
+    // ADD NEW CATEGORY
+    const data = await createCategory(trimmed);
+    setSaveLoading(false);
 
-            // replace old category with updated one in the list
-            setCategories(categories.map((cat) =>{
-                if (cat._id === editingCategory._id){
-                    return data;
-                }
-                return cat;
-            }));
+    if (data.error) {
+      setError(data.error);
+      return;
+    }
 
-            setEditingCategory(null);
-            setInput("");
-            setSuccess("Category updated successfully.");
-        } else {
-            // add new category
-            const data = await createCategory(trimmed);
-            setSaveLoading(false);
-
-            if (data.error){
-                setError(data.error);
-                return;
-            }
-
-            // add new categories to the top of the list
-            setCategories([data, ...categories]);
-            setInput("");
-            setSuccess("Category added successfully.");
-        }
-    };
+    const currentCategories = Array.isArray(categories) ? categories : [];
+    setCategories([data, ...currentCategories]);
+    setInput("");
+    setSuccess("Category added successfully.");
+  }
+};
 
     // seller clicks Delete on a category
     const handleDeleteClick = (category) =>{
@@ -140,7 +145,7 @@ function CategoryManager (){
     };
 
     return(
-        <div className={StyleSheet.container}>
+        <div className={styles.container}>
             {/* success message */}
             {success && <p className={styles.success}>{success}</p>}
 
@@ -187,7 +192,7 @@ function CategoryManager (){
                 <p className={styles.loading}>
                     Loading categories...
                 </p>
-            ) : null};
+            ) : null}
 
             {/* empty state */}
             {loading ? null : categories.length === 0 ? (
@@ -196,10 +201,60 @@ function CategoryManager (){
 
             {/* categories list */}
             {loading ? null : categories.length > 0 ? (
-                <div className="list">
-                    
+                <div className={styles.list}>
+                    {categories.map((cat) => (
+                        <div key={cat._id} className={styles.categoryRow}>
+                            <p className={styles.categoryName}>{cat.name}</p>
+
+                            <div className={styles.actions}>
+                                <button
+                                className={styles.editButton}
+                                onClick={() => handleEditClick(cat)}
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                className={styles.deleteButton}
+                                onClick={() => handleDeleteClick(cat)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}                    
                 </div>
             ): null}
+
+            {/* delete warning popup */}
+            {showDeleteWarning ? (
+                <div className={styles.overlay}>
+                    <div className={styles.popup}>
+                        <h3 className={styles.popupTitle}>Delete Category?</h3>
+                        <p className={styles.popupText}>
+                            You are about to delete{" "}
+                            <strong>{selectedCategory?.name}</strong>. This cannot be undone.
+                        </p>
+
+                        <div className={styles.popupButtons}>
+                            <button
+                            className={styles.cancelPopupButton}
+                            onClick={handleCancelDelete}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                            className={styles.confirmDeleteButton}
+                            onClick={handleConfirmDelete}
+                            disabled={deleteLoading}
+                            >
+                                {deleteLoading ? "Deleting..." : "Yes, Delete"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </div>
     );
 }

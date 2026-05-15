@@ -82,7 +82,7 @@ function ProductTable({ products, categories, onEdit, onDeleted, onStockToggle})
 
             {/* product list */}
             {products.length > 0 ?(
-                <div className={styles.table}>
+                <div className={styles.cards}>
                     {/* table header */}
                     <div className={styles.tableHeader}>
                         <span>Product</span>

@@ -38,7 +38,7 @@
 
 /* table header */
 .tableHeader{
-    display: grid;
+    display: flex;
     grid-template-columns: 2fr 1fr 1fr 2fr 1fr 1fr;
     background-color: #f5f3ff;
     padding: 12px 16px;
