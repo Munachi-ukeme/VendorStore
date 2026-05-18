@@ -2,6 +2,8 @@
 
 const express = require("express"); 
 const cors = require("cors");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit")
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
@@ -13,8 +15,39 @@ connectDB();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Security middleware
+// 1. helmet- set secure HTTP headers automatically
+// protects against common attacks like clickjacking, XSS, sniffing
+app.use(helmet());
+
+// 2. CORS - only allow requests from moonstore frontend URL
+// blocks any other domain from calling moonstore backend
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization", "admin-key"],
+}));
+
+// 3. General rate limiter - applies to all routes
+// limits each IP to 100 requests per 15 minutes
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message:{
+    error: "Too many requests. Please try again later."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// apply general limiter to all routes
+app.use(generalLimiter);
+
+// body parser
+
+// // Middleware
+// app.use(cors());
 app.use(express.json()); // allows app to read JSON from requests
 
 //Routes
