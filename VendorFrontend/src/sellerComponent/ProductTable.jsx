@@ -83,70 +83,52 @@ function ProductTable({ products, categories, onEdit, onDeleted, onStockToggle})
             {/* product list */}
             {products.length > 0 ?(
                 <div className={styles.cards}>
-                    {/* table header */}
-                    <div className={styles.tableHeader}>
-                        <span>Product</span>
-                        <span>Price</span>
-                        <span>Category</span>
-                        <span>Description</span>
-                        <span>Stock</span>
-                        <span>Actions</span>
-                    </div>
 
-                    {/* table rows */}
                     {products.map((product) =>(
-                        <div key={product._id} className={styles.tableRow}>
+                        <div key={product._id} className={styles.card}>
 
-                            {/* product name + image */}
-                            <div className={styles.productName}>
+                            {/* top section - image and name */}
+                            <div className={styles.cardTop}>
                                 {product.images && product.images[0] ? (
                                     <img
-                                    src={product.images[0]} 
+                                    src={product.images[0]}
                                     alt={product.name}
                                     className={styles.productImage}
-                                     />
+                                    />                                    
                                 ) : null}
-                                <span>{product.name}</span>
+
+                                <div className={styles.productInfo}>
+                                    <p className={styles.productName}>{product.name}</p>
+                                    <p className={styles.price}>₦{product.price.toLocaleString()}</p>
+                                    <p className={styles.category}>{getCategoryName(product.categoryId)}</p>
+                                    <p className={styles.description}>{truncateDescription(product.description)}</p>
+                                </div>
                             </div>
 
-                            {/* price */}
-                            <span className={styles.price}>
-                                ₦{product.price.toLocaleString()}
-                            </span>
-
-                            {/* category */}
-                            <span className={styles.category}>
-                                {getCategoryName(product.categoryId)}
-                            </span>
-
-                            {/* description truncated */}
-                            <span className={styles.description}>
-                                {truncateDescription(product.description)}
-                            </span>
-
-                            {/* stock status toggle */}
-                            <button
-                            className={product.inStock ? styles.inStock : styles.soldOut}
-                            onClick={() => handleStockToggle(product)}
-                            >
-                                {product.inStock ? "In Stock" : "Sold Out"}
-                            </button>
-
-                            {/* action */}
-                            <div className={styles.actions}>
-                                <button
-                                className={styles.editButton}
-                                onClick={() => onEdit(product)}
+                            {/* bottom section-  stock and action */}
+                            <div className={styles.cardBottom}>
+                                <button 
+                                className={product.inStock ? styles.inStock : styles.soldOut}
+                                onClick={() => handleStockToggle(product)}
                                 >
-                                    Edit
+                                    {product.inStock ? "In Stock" : "Sold Out"}
                                 </button>
 
-                                <button
-                                className={styles.deleteButton}
-                                onClick={() => handleDeleteClick (product)}
-                                >
-                                    Delete
-                                </button>
+                                <div className={styles.actions}>
+                                    <button
+                                    className={styles.editButton}
+                                    onClick={() => onEdit(product)}
+                                    >
+                                        Edit
+                                    </button>
+                                    
+                                    <button
+                                    className={styles.deleteButton}
+                                    onClick={() => handleDeleteClick(product)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
