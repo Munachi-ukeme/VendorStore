@@ -18,6 +18,8 @@ function StoreSettings() {
 
     const [address, setAddress] = useState("");
 
+    const [phoneNumber, setPhoneNumber] = useState("");
+
     const [primaryColor, setPrimaryColor] = useState("");
 
     const [secondaryColor, setSecondaryColor] = useState("");
@@ -43,6 +45,7 @@ function StoreSettings() {
         setTagline(seller.tagline || "");
         setWhatsappNumber(seller.whatsappNumber || "");
         setAddress(seller.address || "");
+        setPhoneNumber(seller.phoneNumber || "");
         setPrimaryColor(seller.primaryColor || "");
         setSecondaryColor(seller.secondaryColor || "");
     }, [seller]);
@@ -57,6 +60,7 @@ function StoreSettings() {
     formData.append("tagline", tagline);
     formData.append("whatsappNumber", whatsappNumber);
     formData.append("address", address);
+    formData.append("phoneNumber", phoneNumber);
 
     if (seller?.plan === "pro" || seller?.plan === "premium") {
         formData.append("primaryColor", primaryColor);
@@ -159,6 +163,18 @@ return(
         onChange={(e) =>setAddress(e.target.value)}
         value={address}
         placeholder="e.g 12 Broad Street, Ikeja Lagos"
+        />
+    </div>
+
+    {/* phone number */}
+    <div className={styles.field}>
+        <label className={styles.label}>Call</label>
+        <input
+        type="text"
+        className={styles.input}
+        onChange={(e) =>setPhoneNumber(e.target.value)}
+        value={phoneNumber}
+        placeholder="e.g +2349034596843"
         />
     </div>
 
