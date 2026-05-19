@@ -67,6 +67,11 @@ const sellerSchema = new mongoose.Schema(
                 default: "",
         },
 
+        phoneNumber: {
+            type: String,
+            default: "",
+        },
+
     isActive: {
       type: Boolean,
       default: true, // store is active by default when created

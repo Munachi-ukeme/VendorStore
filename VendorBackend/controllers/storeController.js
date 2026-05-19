@@ -121,6 +121,10 @@ const getProduct = async (req, res) => {
         seller.address = req.body.address
       }
 
+      if(req.body.phoneNumber !== undefined){
+        seller.phoneNumber = req.body.phoneNumber
+      }
+
       //3. Update brand colors - pro and premium only
       if (seller.plan === "pro" || seller.plan === "premium") {
         if(req.body.primaryColor){
