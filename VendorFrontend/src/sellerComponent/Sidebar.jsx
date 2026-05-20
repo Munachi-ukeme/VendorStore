@@ -61,6 +61,20 @@ return(
             }> Settings </NavLink>
 
 
+            <NavLink
+            to="/dashboard/privacyPolicy"
+            className={({ isActive }) =>
+                isActive ? `${styles.link} ${styles.activeLink}` : styles.link
+            }> Privacy Policy </NavLink>
+
+
+            <NavLink
+            to="/dashboard/termsOfService"
+            className={({ isActive }) =>
+                isActive ? `${styles.link} ${styles.activeLink}` : styles.link
+            }> Terms of Service </NavLink>
+
+
         </nav>
 
         {/* logout button at the bottom */}

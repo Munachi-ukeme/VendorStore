@@ -7,6 +7,8 @@ import DashboardPage from "./pages/DashboardPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProductPage from "./pages/ProductsPage";
 import CategoriesPage from "./pages/CategoriesPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService"
 
 function App(){
   return (
@@ -20,6 +22,9 @@ function App(){
       {/* Public buyer routes */}
       <Route path="/:slug" element={<div>Store Page</div>}/>
       <Route path="/:slug/:productSlug" element={<div>Product Page</div>}/>
+      <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
+      <Route path="/terms-of-service" element={<TermsOfService />}/>
+
 
       {/* Auth */}
       <Route path="/login" element={<LoginPage/>}/>
@@ -53,6 +58,26 @@ function App(){
         <ProtectedRoute>
           <DashboardLayout>
             <SettingsPage />
+          </DashboardLayout>
+        </ProtectedRoute>
+        
+        }/>
+
+
+      <Route path="/dashboard/privacypolicy" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <PrivacyPolicy/>
+          </DashboardLayout>
+        </ProtectedRoute>
+        
+        }/>
+
+
+      <Route path="/dashboard/termsofservice" element={
+        <ProtectedRoute>
+          <DashboardLayout>
+            <TermsOfService />
           </DashboardLayout>
         </ProtectedRoute>
         

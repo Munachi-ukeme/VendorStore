@@ -7,7 +7,7 @@ import styles from "./StoreSettings.module.css";
 
 
 function StoreSettings() {
-    const { seller, logout} = useAuth();
+    const { seller, logout, updateSeller} = useAuth();
     const navigate = useNavigate();
 
     const [businessName, setBusinessName] = useState("");
@@ -83,6 +83,8 @@ function StoreSettings() {
         return;
     }
 
+    // update seller in localStorage and state immediately
+    updateSeller(data.seller);
     setSuccess("Store settings updated successfully.");
 };
 

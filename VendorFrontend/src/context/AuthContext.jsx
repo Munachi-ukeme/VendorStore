@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext(); // THIS create an empty container that can hold data and share it across your entire app.
 
+
 //This wraps the entire app and makes auth state available everywhere
 export const AuthProvider = ({ children }) =>{
 
@@ -32,11 +33,18 @@ export const AuthProvider = ({ children }) =>{
     setSeller(null);
   };
 
+    // updates seller data in state and localStorage without full logout
+    const updateSeller = (newSellerData) =>{
+      const updatedSeller = {...seller, ...newSellerData};
+      localStorage.setItem("seller", JSON.stringify(updatedSeller));
+      setSeller(updatedSeller);
+    };
+
 
   const isAuthenticated = !!seller; // true if seller is not null
 
   return(
-    <AuthContext.Provider value={{ seller, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ seller, isAuthenticated, login, logout, updateSeller }}>
         {children}
     </AuthContext.Provider>
   );
