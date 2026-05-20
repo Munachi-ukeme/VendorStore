@@ -128,6 +128,7 @@ if (!errors.isEmpty()) {
         email: seller.email,
         slug: seller.slug,
         plan: seller.plan,
+        isActive: seller.isActive,
       },
     })
 
