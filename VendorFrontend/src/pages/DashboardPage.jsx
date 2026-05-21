@@ -155,8 +155,8 @@ function DashboardPage() {
                                 </button>
                             </div>
                             <p className={styles.storeLinkHint}>
-                                Paste this link on your social media bios or share it with your customers
-                                Note: Your store link is permanent. It won't change of you change your store name.
+                                Paste this link on your social media bios or share it with your customers. <br/>
+                                Note: Your store link is permanent. It won't change if you change your store name.
                             </p>
                         </div>
                      )}

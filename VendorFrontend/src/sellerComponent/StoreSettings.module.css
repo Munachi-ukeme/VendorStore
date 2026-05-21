@@ -11,7 +11,7 @@
 
 .title{
     font-size: 22px;
-    font-weight: 800px;
+    font-weight: 800;
     color: #1e1b2e;
     margin-bottom: 24px;
 }
@@ -132,6 +132,29 @@
 
 .helpButton:hover{
     background-color: #1ebe5d;
+}
+
+/* bank details section */
+.bankSection {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.bankTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 8px;
+}
+
+.bankHint {
+    font-size: 13px;
+    color: #374151;
+    margin-bottom: 16px;
+    line-height: 1.5;
 }
 
 /* danger zone */

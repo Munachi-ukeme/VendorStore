@@ -38,6 +38,14 @@ function StoreSettings() {
 
     const [deleteLoading, setDeleteLoading] = useState(false);
 
+    const [accountName, setAccountName] = useState("");
+
+    const [accountNumber, setAccountNumber] = useState("");
+
+    const [bankName, setBankName] = useState("");
+
+    const [bankLoading, setBankLoading] = useState(false);
+
     useEffect(() =>{
         if(!seller) return;
 
@@ -48,12 +56,16 @@ function StoreSettings() {
         setPhoneNumber(seller.phoneNumber || "");
         setPrimaryColor(seller.primaryColor || "");
         setSecondaryColor(seller.secondaryColor || "");
+        setAccountName(seller.bankDetails?.accountName || "");
+        setAccountNumber(seller.bankDetails?.accountNumber || "");
+        setBankName(seller.bankDetails?.bankName || "");
     }, [seller]);
 
     const handleSave = async()=>{
     setError(null);
     setSuccess(null);
     setLoading(true);
+
 
     const formData = new FormData();
     formData.append("businessName", businessName);
@@ -87,6 +99,42 @@ function StoreSettings() {
     updateSeller(data.seller);
     setSuccess("Store settings updated successfully.");
 };
+
+const handleSaveBankDetails = async()=>{
+    setError(null);
+    setSuccess(null);
+
+    //block save if any field is empty
+    if(!accountName.trim() || !accountNumber.trim() || !bankName.trim()){
+        setError("Please fill in all bank details before saving.");
+        setTimeout(() => setError(null), 2000);
+        return;
+    }
+    setBankLoading(true);
+
+    const formData = new FormData();
+    formData.append("accountName", accountName);
+    formData.append("accountNumber", accountNumber);
+    formData.append("bankName", bankName);
+
+    const data = await updateStoreSettings(formData);
+    setBankLoading(false);
+
+     if (data?.error) {
+        setError(data.error);
+        setTimeout(() => setError(null), 2000);
+        return;
+    }
+
+    updateSeller(data.seller);
+    setSuccess("Bank details saved successfully");
+    setTimeout(() => setSuccess(null), 2000);
+    setAccountName("");
+    setAccountNumber("");
+    setBankName("");
+    };
+
+
 
 const handleDeleteAccount = async ()=>{
     setDeleteLoading(true);
@@ -191,7 +239,7 @@ return(
     </div>
 
     {/* banner image - pro and premium only */}
-    {seller?.plan === "pro" || seller?.plan === "premium" ? (
+    {(seller?.plan === "pro" || seller?.plan === "premium") ? (
         <div className={styles.field}>
             <label className={styles.label}>Banner Image</label>
             <input
@@ -204,7 +252,7 @@ return(
     ) : null}
 
     {/* brand colors - pro and premium only */}
-    {seller?.plan === "pro" || seller?.plan === "premium" ? (
+    {(seller?.plan === "pro" || seller?.plan === "premium") ? (
         <div className={styles.colors}>
             <div className={styles.field}>
                 <label className={styles.label}>Primary Color</label>
@@ -242,6 +290,61 @@ return(
     <div className={styles.helpSection}>
         <p className={styles.helpText}>Need help with your store?</p>
         <button className={styles.helpButton} onClick={handleHelpButton}>Chat With Us on WhatsApp</button>
+    </div>
+
+    {/* bank details for commission payout */}
+    <div className={styles.bankSection}>
+        <h3 className={styles.bankTitle}>Bank Details</h3>
+        <p className={styles.bankHint}>
+        Add your bank details so we can transfer your referral
+        commission directly to your account. <br/>
+        Note: Payouts are every saturdays
+        </p>
+
+        <div className={styles.field}>
+            <label className={styles.label}>Account Name</label>
+            <input
+            type="text"
+            className={styles.input}
+            value={accountName}       
+            onChange={(e) => setAccountName(e.target.value)} 
+            placeholder="e.g Zainab Abdullahi"  
+            required
+            />
+        </div>
+
+        <div className={styles.field}>
+            <label className={styles.label}>Account Number</label>
+            <input
+            type="text"
+            className={styles.input}
+            value={accountNumber}       
+            onChange={(e) => setAccountNumber(e.target.value)} 
+            placeholder="e.g 0123456789" 
+            required 
+            />
+        </div>
+
+        <div className={styles.field}>
+            <label className={styles.label}>Bank Name</label>
+            <input
+            type="text"
+            className={styles.input}
+            value={bankName}       
+            onChange={(e) => setBankName(e.target.value)} 
+            placeholder="e.g GTBank"  
+            required
+            />
+        </div>
+
+            {/* bank details save button */}
+    <button
+    className={styles.saveButton}
+    onClick={handleSaveBankDetails}
+    disabled={bankLoading}
+    >
+        {bankLoading ? "Saving..." : "Save Bank Details"}
+    </button>
     </div>
 
     {/* delete account section */}
