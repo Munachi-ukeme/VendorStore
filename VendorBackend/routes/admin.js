@@ -9,6 +9,9 @@ const {
   deactivateAll,
   deleteSeller,
   getAllSellers,
+  resetPassword,
+  markCommissionPaid,
+  getAllReferrals,
 } = require("../controllers/adminController")
 
 // PUT /api/admin/upgrade → upgrade seller plan
@@ -29,7 +32,17 @@ router.put("/deactivate-all", deactivateAll)
 // DELETE /api/admin/delete-seller → delete seller account + all data
 router.delete("/delete-seller", deleteSeller)
 
-// GET /apu/admin/get- all all sellers
+// GET /api/admin/get- all all sellers
 router.get("/sellers", getAllSellers)
+
+// reset seller password
+router.put("/reset-password", resetPassword)
+
+//mark commission as paid
+router.put("/mark-commission-paid", markCommissionPaid)
+
+// get all referrals
+router.get("/referrals", getAllReferrals)
+
 
 module.exports = router

@@ -125,6 +125,20 @@ const getProduct = async (req, res) => {
         seller.phoneNumber = req.body.phoneNumber
       }
 
+      // bank details
+      if(!seller.bankDetails) seller.bankDetails = {};
+      if(req.body.accountName !== undefined){
+        seller.bankDetails.accountName = req.body.accountName
+      }
+
+      if (req.body.accountNumber !== undefined){
+        seller.bankDetails.accountNumber =req.body.accountNumber
+      }
+
+      if (req.body.bankName !== undefined) {
+        seller.bankDetails.bankName = req.body.bankName
+      }
+
       //3. Update brand colors - pro and premium only
       if (seller.plan === "pro" || seller.plan === "premium") {
         if(req.body.primaryColor){
@@ -177,6 +191,7 @@ const getProduct = async (req, res) => {
           secondaryColor: seller.secondaryColor,
           plan: seller.plan,
           slug: seller.slug,
+          bankDetails: seller.bankDetails,
         },
       })
 

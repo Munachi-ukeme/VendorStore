@@ -87,11 +87,58 @@ const sellerSchema = new mongoose.Schema(
       default: null, // null until i activate their subscription
     },
 
+    //referral field
+    referralCode: {
+        type: String,
+        unique: true,
+        sparse: true, //allow multiple null values without unique conflict
+        default: null,
     },
 
-    {
+    referredBy:{
+    type: String,
+    default: null,
+    },
+
+    //commission fields
+    commissionBalance:{
+        type: Number,
+        default: 0,
+    },
+
+    totalEarned: {
+        type: Number,
+        default: 0,
+    },
+
+    totalPaid:{
+        type: Number,
+        default: 0,
+    },
+
+    // bank details for commission payout
+    bankDetails: {
+        accountName: {
+            type: String,
+            default: "",
+        },
+
+        accountNumber: {
+            type: String,
+            default: ""
+        },
+
+        bankName: {
+            type: String,
+            default: "",
+        },
+    },
+
+},
+
+{
         timestamps: true, // automatically adds createdAt and updatedAt
-    }
+}
 );
 
 module.exports = mongoose.model("Seller", sellerSchema);
