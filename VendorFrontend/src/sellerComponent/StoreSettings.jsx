@@ -98,6 +98,7 @@ function StoreSettings() {
     // update seller in localStorage and state immediately
     updateSeller(data.seller);
     setSuccess("Store settings updated successfully.");
+    setTimeout(() => setSuccess(null), 2000);
 };
 
 const handleSaveBankDetails = async()=>{
@@ -129,9 +130,6 @@ const handleSaveBankDetails = async()=>{
     updateSeller(data.seller);
     setSuccess("Bank details saved successfully");
     setTimeout(() => setSuccess(null), 2000);
-    setAccountName("");
-    setAccountNumber("");
-    setBankName("");
     };
 
 
@@ -286,11 +284,6 @@ return(
         {loading ? "Saving..." : "Save Settings"}
     </button>
 
-    {/* help button */}
-    <div className={styles.helpSection}>
-        <p className={styles.helpText}>Need help with your store?</p>
-        <button className={styles.helpButton} onClick={handleHelpButton}>Chat With Us on WhatsApp</button>
-    </div>
 
     {/* bank details for commission payout */}
     <div className={styles.bankSection}>
@@ -345,6 +338,13 @@ return(
     >
         {bankLoading ? "Saving..." : "Save Bank Details"}
     </button>
+    </div>
+
+    
+    {/* help button */}
+    <div className={styles.helpSection}>
+        <p className={styles.helpText}>Need help with your store?</p>
+        <button className={styles.helpButton} onClick={handleHelpButton}>Chat With Us on WhatsApp</button>
     </div>
 
     {/* delete account section */}

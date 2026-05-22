@@ -135,6 +135,20 @@ export const updateStoreSettings = async(formData) =>{
     return res.json();
 };
 
+export const changeSellerPassword = async (currentPassword, newPassword) => {
+    try {
+        const res = await fetch(`${BASE_URL}/seller/change-password`, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ currentPassword, newPassword }),
+        });
+        return res.json();
+    } catch (error) {
+        return { error: "Failed to change password." };
+    }
+}; 
+
+
 //SELLER ACCOUNT
 //Permently delete the seller's account
 export const deleteSellerAccount = async () =>{

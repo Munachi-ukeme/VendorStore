@@ -15,15 +15,17 @@
 }
 
 .welcomeTitle {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 600;
     color: #1e1b2e;
+    text-align: center;
 }
 
 .welcomeSubtitle {
     font-size: 14px;
     color: #7c3aed;
     margin-top: 4px;
+    text-align: center;
 }
 
 /* error message */
@@ -128,8 +130,8 @@
 
 .storeLink {
     font-size: 15px;
-    font-weight: 600;
-    color: #1e1b2e;
+    font-weight: 400;
+    color: #131314;
     word-break: break-all;
 }
 
