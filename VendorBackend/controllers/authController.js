@@ -1,3 +1,5 @@
+// register and login work 
+
 const { validationResult } = require("express-validator")
 const Seller = require("../models/Seller");
 const bcrypt = require("bcryptjs");
@@ -11,6 +13,11 @@ const generateSlug = (businessName) =>{
     .trim()
     .replace(/[^a-z0-9 ]/g, "") // remove special characters
     .replace(/\s+/g, "-") //replace with hyphens
+}
+
+// helper - generate random 6 digit referral code
+const generateReferralCode = () =>{
+  return Math.floor(100000 + Math.random() * 900000).toString()
 }
 
 // REGISTER SELLER
@@ -47,8 +54,28 @@ if (!errors.isEmpty()) {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
+    // 5. generate unique referral code for this new seller
+    let referralCode = generateReferralCode()
 
-    // 5. Create new seller
+    //  make sure the code does not already exist
+    const existingCode = await Seller.findOne({ referralCode})
+    if(existingCode){
+      //generate a new one
+      referralCode = generateReferralCode()
+    }
+
+    // 6. check if referredBy code is valid
+    let validReferredBy = null
+    if (referredBy){
+      const referrer = await Seller.findOne({ referralCode: referredBy})
+      if(referrer){
+        validReferredBy = referredBy
+      }
+      //if code does not exist, ignore it. dont block registration because of a wrong referral code
+    }
+
+
+    // 7. Create new seller
     const seller = await Seller.create({
       businessName,
       email,
@@ -58,14 +85,14 @@ if (!errors.isEmpty()) {
       plan: plan || "basic", // defaults to basic if not specified
     })
 
-    // 6. Generate JWT token
+    // 8. Generate JWT token
     const token = jwt.sign(
       { id: seller._id },
       process.env.JWT_SECRET,
       { expiresIn: "30d" } // token expires in 30 days
     )
 
-     // 7. Return seller data and token
+     // 9. Return seller data and token
     res.status(201).json({
       message: "Seller registered successfully",
       token,
@@ -75,6 +102,13 @@ if (!errors.isEmpty()) {
         email: seller.email,
         slug: seller.slug,
         plan: seller.plan,
+        isActive: seller.isActive,
+        referralCode: seller.referralCode,
+        referredBy: seller.referredBy,
+        commissionBalance: seller.commissionBalance,
+        totalEarned: seller.totalEarned,
+        totalPaid: seller.totalPaid,
+        bankDetails: seller.bankDetails,
       },
     })
 
@@ -129,6 +163,19 @@ if (!errors.isEmpty()) {
         slug: seller.slug,
         plan: seller.plan,
         isActive: seller.isActive,
+        tagline: seller.tagline,
+        whatsappNumber:seller.whatsappNumber,
+        phoneNumber: seller.phoneNumber,
+        address: seller.address,
+        logo: seller.logo,
+        bannerImage: seller.bannerImage,
+        primaryColor: seller.primaryColor,
+        secondaryColor: seller.secondaryColor,
+        referralCode: seller.referralCode,        
+        commissionBalance: seller.commissionBalance,
+        totalEarned: seller.totalEarned,
+        totalPaid: seller.totalPaid,
+        bankDetails: seller.bankDetails,
       },
     })
 

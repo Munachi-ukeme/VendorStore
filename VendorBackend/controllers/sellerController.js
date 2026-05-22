@@ -19,6 +19,10 @@ const changePassword = async (req, res) => {
       return res.status(400).json({ message: "Current password is incorrect" })
     }
 
+    if(newPassword === currentPassword){
+      return res.status(400).json({ message: "This is the current password, change it"})
+    }
+
     // 3. Hash new password
     const salt = await bcrypt.genSalt(10)
     seller.password = await bcrypt.hash(newPassword, salt)
@@ -41,17 +45,14 @@ const changePassword = async (req, res) => {
 // -----------------------------------
 const deleteAccount = async (req, res) => {
   try {
-    const { password } = req.body
 
     // 1. Find seller
     const seller = await Seller.findById(req.seller._id)
 
-    // 2. Confirm password before deleting
-    // prevents accidental or unauthorized deletion
-    const isMatch = await bcrypt.compare(password, seller.password)
-    if (!isMatch) {
-      return res.status(400).json({ 
-        message: "Incorrect password. Account not deleted." 
+    
+    if (!seller) {
+      return res.status(404).json({ 
+        message: "Seller not found" 
       })
     }
 
