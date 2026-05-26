@@ -1,191 +1,210 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { getProducts, getCategories} from "../api/api";
+import { getProducts } from "../api/api";
 import styles from "./DashboardPage.module.css";
 
 function DashboardPage() {
-    const {seller} = useAuth();
+    const { seller } = useAuth();
+    const referralLink = `moonstore.com/signup?ref=${seller?.referralCode}`;
+    const storeLink = `moonstore.com/${seller?.slug}`;
 
     const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
+    const [copiedReferral, setCopiedReferral] = useState(false);
 
-    // fetch products and categories when page loads
-    useEffect(() =>{
-        const loadData = async ()=>{
-            const [productsData, categoriesData] = await Promise.all([
-                getProducts(),
-                getCategories(),
-            ]);
+    // fetch products when page loads
+    useEffect(() => {
+        const loadProducts = async () => {
+            const data = await getProducts();
 
-            if (productsData.error){
-                setError(productsData.error);
+            if (data.error) {
+                setError(data.error);
                 setLoading(false);
                 return;
             }
 
-            setProducts(productsData);
-
-            if(!categoriesData.error){
-                setCategories(categoriesData);
-            }
-
+            setProducts(data);
             setLoading(false);
         };
-        loadData();
+        loadProducts();
     }, []);
 
-    // figure out plan product limit
+    // plan product limit
     let productLimit;
-
-    if(seller?.plan === "basic"){
-        productLimit = 25;
-    } else if (seller?.plan === "pro"){
-        productLimit = 60;
-    } else if (seller?.plan === "premium"){
-        productLimit = null; //unlimited
-    } else{
-        productLimit = 25;
+    if (seller?.plan === "basic") {
+        productLimit = 15;
+    } else if (seller?.plan === "pro") {
+        productLimit = 35;
+    } else if (seller?.plan === "premium") {
+        productLimit = null;
+    } else {
+        productLimit = 15;
     }
 
-    // copy store link to clipboard
-    const handleCopyLink = () =>{
-        const storeLink = `moonstore.com/${seller?.slug}`;
-        navigator.clipboard.writeText(storeLink)
+    // copy store link
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(storeLink);
         setCopied(true);
-
-        //reset copied message after 2 seconds
-        setTimeout(() =>{
-            setCopied(false);
-        }, 2000);
+        setTimeout(() => setCopied(false), 2000);
     };
 
-    return(
+    // copy referral link
+    const handleCopyReferral = () => {
+        navigator.clipboard.writeText(referralLink);
+        setCopiedReferral(true);
+        setTimeout(() => setCopiedReferral(false), 2000);
+    };
+
+    // visit store in new tab
+    const visitStore = () => {
+        window.open(`https://${storeLink}`, "_blank");
+    };
+
+    return (
         <div className={styles.container}>
 
-            {/* welcome message */}
-            <div className={styles.welcome}>
-                <h1 className={styles.welcomeTitle}>Welcome back, {seller?.businessName}</h1>
-                <p className={styles.welcomeSubtitle}>Here is a summary of your store</p>
+            {/* welcome row */}
+            <div className={styles.welcomeContainer}>
+                <div className={styles.welcome}>
+                    <h1 className={styles.welcomeTitle}>
+                        Hi, {seller?.businessName} 👋
+                    </h1>
+                    <p className={
+                        seller?.isActive
+                            ? styles.activeStatus
+                            : styles.inactiveStatus
+                    }>
+                        {seller?.isActive
+                            ? "Your store is live"
+                            : "Your store is inactive"}
+                    </p>
+                </div>
+
+                <button className={styles.visitStore} onClick={visitStore}>
+                    Visit Store
+                </button>
             </div>
 
-                     {/* error message  */}
-                     {error && <p className={styles.error}>{error}</p>}
+            {/* error message */}
+            {error && <p className={styles.error}>{error}</p>}
 
-                     {/* loading state */}
-                     {loading ? (
-                        <p className={styles.loading}>Loading your store data...</p>
-                     ) : null}
+            {/* loading state */}
+            {loading ? (
+                <p className={styles.loading}>Loading your store data...</p>
+            ) : null}
 
-                     {/* stats cards */}
-                     {loading ? null : (
-                        <div className={styles.cards}>
+            {/* store link card */}
+            {loading ? null : (
+                <div className={styles.heroCard}>
+                    <p className={styles.heroLabel}>🔗 Your Store Link</p>
+                    <div className={styles.storeLinkRow}>
+                        <p className={styles.storeLink}>{storeLink}</p>
+                        <button
+                            className={styles.copyButton}
+                            onClick={handleCopyLink}
+                        >
+                            {copied ? "Copied!" : "Copy"}
+                        </button>
+                    </div>
+                    <p className={styles.storeLinkHint}>
+                        Your store link is permanent. It will not change if you update your store name.
+                    </p>
+                </div>
+            )}
 
-                            {/* total products */}
-                            <div className={styles.card}>
-                                <p className={styles.cardLabel}>Products</p>
-                                <p className={styles.cardValue}>
-                                    {products.length}
-                                    {productLimit !== null ? ` / ${productLimit}` : " / Unlimited"}
-                                </p>
+            {/* stats cards */}
+            {loading ? null : (
+                <div className={styles.cards}>
+                    <div className={styles.card}>
+                        <p className={styles.cardLabel}>Products</p>
+                        <p className={styles.cardValue}>
+                            {products.length}
+                            {productLimit !== null ? ` / ${productLimit}` : " / ∞"}
+                        </p>
+                        <p className={styles.cardHint}>
+                            {productLimit !== null
+                                ? `${productLimit - products.length} slots left`
+                                : "No product limit"}
+                        </p>
+                    </div>
 
-                                <p className={styles.cardHint}>
-                                    {productLimit !== null
-                                    ? `${productLimit - products.length} slots remaining` 
-                                    : "No product limit on your plan"
-                                    }
-                                </p>
-                            </div>
+                    <div className={styles.card}>
+                        <p className={styles.cardLabel}>Your Plan</p>
+                        <p className={styles.cardValue}>{seller?.plan}</p>
+                        <p className={styles.cardHint}>
+                            {seller?.plan === "basic" ? "Upgrade for more features" : null}
+                            {seller?.plan === "pro" ? "Upgrade to Premium" : null}
+                            {seller?.plan === "premium" ? "You are on the best plan" : null}
+                        </p>
+                    </div>
+                </div>
+            )}
 
-                            {/* total categories */}
-                            <div className={styles.card}>
-                                <p className={styles.cardLabel}>Categories</p>
-                                <p className={styles.cardValue}>{categories.length}</p>
-                                <p className={styles.cardHint}>Total categories in your store</p>
-                            </div>
+            {/* referral card */}
+            <div className={styles.referralCard}>
+                <p className={styles.heroLabel}>💰 Earn ₦3,000 Per Referral</p>
+                <div className={styles.storeLinkRow}>
+                    <p className={styles.storeLink}>{referralLink}</p>
+                    <button
+                        className={styles.copyButton}
+                        onClick={handleCopyReferral}
+                    >
+                        {copiedReferral ? "Copied!" : "Copy"}
+                    </button>
+                </div>
 
-                            {/* store status */}
-                            <div className={styles.card}>
-                                <p className={styles.cardLabel}>Store Status</p>
+                <p className={styles.storeLinkHint}>
+                    Share with vendor friends. You earn ₦3,000 when they join and pay.
+                </p>
 
-                                <p className={
-                                    seller?.isActive ? styles.statusActive : styles.statusInactive
-                                }>                                
-                                    {seller?.isActive ? "Active" : "Inactive"}
-                                </p>
+                {/* commission stats */}
+                <div className={styles.commissionRow}>
+                    <div className={styles.commissionItem}>
+                        <p className={styles.commissionLabel}>Total Earned</p>
+                        <p className={styles.commissionValue}>
+                            ₦{seller?.totalEarned?.toLocaleString() || 0}
+                        </p>
+                    </div>
+                    <div className={styles.commissionItem}>
+                        <p className={styles.commissionLabel}>Pending</p>
+                        <p className={styles.commissionValue}>
+                            ₦{seller?.commissionBalance?.toLocaleString() || 0}
+                        </p>
+                    </div>
+                    <div className={styles.commissionItem}>
+                        <p className={styles.commissionLabel}>Paid Out</p>
+                        <p className={styles.commissionValue}>
+                            ₦{seller?.totalPaid?.toLocaleString() || 0}
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-                                <p className={styles.cardHint}>
-                                    {seller?.isActive
-                                    ? "Your store is live and visible to buyers"
-                                    : "Your store is currently hidden from buyers"
-                                    }
-                                </p>
-                            </div>
+            {/* basic analytics - pro and premium only */}
+            {seller?.plan === "pro" || seller?.plan === "premium" ? (
+                <div className={styles.comingSoonCard}>
+                    <p className={styles.comingSoonLabel}>📊 Basic Analytics</p>
+                    <p className={styles.comingSoonTitle}>Coming Soon</p>
+                    <p className={styles.comingSoonText}>
+                        Track store visits, product clicks, and order activity.
+                    </p>
+                </div>
+            ) : null}
 
-                            {/* plan */}
-                            <div className={styles.card}>
-                                <p className={styles.cardLabel}>Your Plan</p>
-                                <p className={styles.cardValue}>{seller?.plan}</p>
-
-                                <p className={styles.cardHint}>
-                                    {seller?.plan === "basic" ? "Upgrade to pro for more features" : null}
-                                    {seller?.plan === "pro" ? "Upgrade to premium for unlimited features" : null}
-                                    {seller?.plan === "premium" ? "You are on the best plan" : null}
-                                </p>
-                            </div>
-                        </div>
-                     )}
-
-                     {/* store link */}
-                     {loading ? null :(
-                        <div className={styles.storeLinkSection}>
-                            <p className={styles.storeLinkLabel}>Your Store Link</p>
-                            <div className={styles.storeLinkRow}>
-                                <p className={styles.storeLink}>
-                                    moonstore.com/{seller?.slug}
-                                </p>
-
-                                <button
-                                className={styles.copyButton}
-                                onClick={handleCopyLink}
-                                >
-                                    {copied ? "Copied" : "Copy Link"}
-                                </button>
-                            </div>
-                            <p className={styles.storeLinkHint}>
-                                Paste this link on your social media bios or share it with your customers. <br/>
-                                Note: Your store link is permanent. It won't change if you change your store name.
-                            </p>
-                        </div>
-                     )}
-
-                     {/* basic analytics - pro and premium only */}
-                     {seller?.plan === "pro" || seller?.plan === "premium" ? (
-                        <div className={styles.comingSoonCard}>
-                            <p className={styles.comingSoonLabel}>Basic Analytics</p>
-                            <p className={styles.comingSoonTitle}>Coming Soon</p>
-                            <p className={styles.comingSoonText}>
-                                Track how many buyers visit your store, which products get the most clicks, and how many orders you receive.
-                            </p>
-                        </div>
-                     ) : null}
-
-                     {/* advanced sales insight - premium only */}
-                     {seller?.plan === "premium" ? (
-                        <div className={styles.comingSoonCard}>
-                            <p className={styles.comingSoonLabel}>Advanced Sales Insights</p>
-                            <p className={styles.comingSoonTitle}>Coming Soon</p>
-                            <p className={styles.comingSoonText}>
-                                Get specific advice based on your store performance.
-                                Know what is selling, when your buyers are most active, and exactly what to do to increase your orders.
-                            </p>
-                        </div>
-                     ) : null}
+            {/* advanced sales insights - premium only */}
+            {seller?.plan === "premium" ? (
+                <div className={styles.comingSoonCard}>
+                    <p className={styles.comingSoonLabel}>🧠 Advanced Sales Insights</p>
+                    <p className={styles.comingSoonTitle}>Coming Soon</p>
+                    <p className={styles.comingSoonText}>
+                        Get specific advice on what to do to increase your orders.
+                    </p>
+                </div>
+            ) : null}
         </div>
     );
-
 }
 
 export default DashboardPage;

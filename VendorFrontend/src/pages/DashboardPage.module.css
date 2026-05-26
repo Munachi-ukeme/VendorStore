@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
@@ -7,112 +7,102 @@
 
 .container {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 24px;
 }
 
-/* welcome section */
+/* welcome row */
+.welcomeContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .welcome {
-    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
 .welcomeTitle {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1e1b2e;
-    text-align: center;
-}
-
-.welcomeSubtitle {
-    font-size: 14px;
-    color: #7c3aed;
-    margin-top: 4px;
-    text-align: center;
-}
-
-/* error message */
-.error {
-    color: red;
-    font-size: 13px;
-    background-color: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin-bottom: 16px;
-}
-
-/* loading text */
-.loading {
     font-size: 15px;
-    color: #6b7280;
-    text-align: center;
-    padding: 40px 0;
-}
-
-/* stats cards wrapper */
-.cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-}
-
-/* each stat card */
-.card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    border: 1px solid #ede9fe;
-    box-shadow: 0 2px 8px rgba(109, 40, 217, 0.06);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.cardLabel {
-    font-size: 12px;
     font-weight: 700;
-    color: #7c3aed;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.cardValue {
-    font-size: 15px;
-    font-weight: 650;
     color: #1e1b2e;
-    text-transform: capitalize;
 }
 
-.cardHint {
-    font-size: 12px;
-    color: #6b7280;
-    line-height: 1.4;
-}
-
-/* store status colors */
-.statusActive {
-    font-size: 15px;
-    font-weight: 650;
+.activeStatus {
+    font-size: 11px;
+    font-weight: 500;
     color: #15803d;
 }
 
-.statusInactive {
-    font-size: 15px;
-    font-weight: 650;
+.inactiveStatus {
+    font-size: 11px;
+    font-weight: 500;
     color: #dc2626;
 }
 
-/* store link section */
-.storeLinkSection {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    border: 1px solid #ede9fe;
-    box-shadow: 0 2px 8px rgba(109, 40, 217, 0.06);
-    margin-bottom: 24px;
+/* visit store button */
+.visitStore {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background-color: #f5f3ff;
+    color: #7c3aed;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #ddd6fe;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
 }
 
-.storeLinkLabel {
+.visitStore:hover {
+    background-color: #ede9fe;
+}
+
+/* error */
+.error {
+    color: red;
     font-size: 12px;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+/* loading */
+.loading {
+    font-size: 13px;
+    color: #6b7280;
+    text-align: center;
+    padding: 16px 0;
+}
+
+/* hero card — store link */
+.heroCard {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid #ede9fe;
+    box-shadow: 0 1px 4px rgba(109, 40, 217, 0.05);
+}
+
+/* referral card */
+.referralCard {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid #ede9fe;
+    box-shadow: 0 1px 4px rgba(109, 40, 217, 0.05);
+}
+
+.heroLabel {
+    font-size: 11px;
     font-weight: 700;
     color: #7c3aed;
     text-transform: uppercase;
@@ -120,89 +110,168 @@
     margin-bottom: 10px;
 }
 
+/* store link row */
 .storeLinkRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 6px;
 }
 
 .storeLink {
-    font-size: 15px;
-    font-weight: 400;
-    color: #131314;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e1b2e;
     word-break: break-all;
 }
 
+/* copy button */
 .copyButton {
-    padding: 10px 20px;
-    background-color: #7c3aed;
-    color: #ffffff;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background-color: #f5f3ff;
+    color: #7c3aed;
+    font-size: 12px;
     font-weight: 700;
-    border: none;
-    border-radius: 8px;
+    border: 1px solid #ddd6fe;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s;
     white-space: nowrap;
 }
 
 .copyButton:hover {
-    background-color: #6d28d9;
+    background-color: #ede9fe;
 }
 
-/* copied state */
 .copyButton:active {
-    background-color: #15803d;
+    background-color: #ddd6fe;
 }
 
 .storeLinkHint {
-    font-size: 12px;
-    color: #6b7280;
+    font-size: 11px;
+    color: #9ca3af;
+    line-height: 1.4;
+    margin-top: 4px;
+}
+
+/* stats cards */
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid #ede9fe;
+    box-shadow: 0 1px 4px rgba(109, 40, 217, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cardLabel {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.cardValue {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e1b2e;
+    text-transform: capitalize;
+}
+
+.cardHint {
+    font-size: 11px;
+    color: #9ca3af;
+    line-height: 1.3;
+}
+
+/* commission row */
+.commissionRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 14px;
+    border-top: 1px solid #f5f3ff;
+    padding-top: 12px;
+}
+
+.commissionItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 0 6px;
+    border-right: 1px solid #f5f3ff;
+}
+
+.commissionItem:last-child {
+    border-right: none;
+}
+
+.commissionLabel {
+    font-size: 10px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    text-align: center;
+}
+
+.commissionValue {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e1b2e;
 }
 
 /* coming soon cards */
 .comingSoonCard {
     background-color: #faf8ff;
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: 12px;
+    padding: 16px;
     border: 1px dashed #ddd6fe;
-    margin-bottom: 16px;
     text-align: center;
 }
 
 .comingSoonLabel {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: #7c3aed;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
 }
 
 .comingSoonTitle {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 800;
     color: #1e1b2e;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .comingSoonText {
-    font-size: 13px;
-    color: #6b7280;
-    line-height: 1.6;
-    max-width: 400px;
-    margin: 0 auto;
+    font-size: 12px;
+    color: #9ca3af;
+    line-height: 1.5;
 }
 
-/* desktop — two columns become wider */
+/* desktop */
 @media (min-width: 768px) {
-    .cards {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+    .welcomeTitle {
+        font-size: 18px;
     }
 
-    .welcomeTitle {
-        font-size: 26px;
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }

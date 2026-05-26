@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.hero {
+    width: 100%;
+    overflow: hidden;
+    max-height: 180px;
+}
+
+.bannerImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+/* desktop — taller banner */
+@media (min-width: 768px) {
+    .hero {
+        max-height: 280px;
+    }
+
+    .bannerImage {
+        height: 280px;
+    }
+}
