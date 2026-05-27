@@ -177,7 +177,7 @@
 }
 
 .cardLabel {
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 600;
     color: #9ca3af;
     text-transform: uppercase;
@@ -185,7 +185,7 @@
 }
 
 .cardValue {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 800;
     color: #1e1b2e;
     text-transform: capitalize;
@@ -229,8 +229,8 @@
 }
 
 .commissionValue {
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
     color: #1e1b2e;
 }
 
@@ -253,7 +253,7 @@
 }
 
 .comingSoonTitle {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 800;
     color: #1e1b2e;
     margin-bottom: 4px;

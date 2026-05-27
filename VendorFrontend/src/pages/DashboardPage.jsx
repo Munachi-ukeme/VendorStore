@@ -34,13 +34,13 @@ function DashboardPage() {
     // plan product limit
     let productLimit;
     if (seller?.plan === "basic") {
-        productLimit = 15;
+        productLimit = 25;
     } else if (seller?.plan === "pro") {
-        productLimit = 35;
+        productLimit = 60;
     } else if (seller?.plan === "premium") {
         productLimit = null;
     } else {
-        productLimit = 15;
+        productLimit = 25;
     }
 
     // copy store link
@@ -69,7 +69,7 @@ function DashboardPage() {
             <div className={styles.welcomeContainer}>
                 <div className={styles.welcome}>
                     <h1 className={styles.welcomeTitle}>
-                        Hi, {seller?.businessName} 👋
+                        Hi, {seller?.businessName}
                     </h1>
                     <p className={
                         seller?.isActive
@@ -98,7 +98,7 @@ function DashboardPage() {
             {/* store link card */}
             {loading ? null : (
                 <div className={styles.heroCard}>
-                    <p className={styles.heroLabel}>🔗 Your Store Link</p>
+                    <p className={styles.heroLabel}>Your Store Link</p>
                     <div className={styles.storeLinkRow}>
                         <p className={styles.storeLink}>{storeLink}</p>
                         <button
@@ -144,7 +144,7 @@ function DashboardPage() {
 
             {/* referral card */}
             <div className={styles.referralCard}>
-                <p className={styles.heroLabel}>💰 Earn ₦3,000 Per Referral</p>
+                <p className={styles.heroLabel}>Earn ₦3,000 Per Referral</p>
                 <div className={styles.storeLinkRow}>
                     <p className={styles.storeLink}>{referralLink}</p>
                     <button
@@ -183,9 +183,9 @@ function DashboardPage() {
             </div>
 
             {/* basic analytics - pro and premium only */}
-            {seller?.plan === "pro" || seller?.plan === "premium" ? (
+            {seller ? (
                 <div className={styles.comingSoonCard}>
-                    <p className={styles.comingSoonLabel}>📊 Basic Analytics</p>
+                    <p className={styles.comingSoonLabel}>Basic Analytics</p>
                     <p className={styles.comingSoonTitle}>Coming Soon</p>
                     <p className={styles.comingSoonText}>
                         Track store visits, product clicks, and order activity.
@@ -196,7 +196,7 @@ function DashboardPage() {
             {/* advanced sales insights - premium only */}
             {seller?.plan === "premium" ? (
                 <div className={styles.comingSoonCard}>
-                    <p className={styles.comingSoonLabel}>🧠 Advanced Sales Insights</p>
+                    <p className={styles.comingSoonLabel}>Advanced Sales Insights</p>
                     <p className={styles.comingSoonTitle}>Coming Soon</p>
                     <p className={styles.comingSoonText}>
                         Get specific advice on what to do to increase your orders.

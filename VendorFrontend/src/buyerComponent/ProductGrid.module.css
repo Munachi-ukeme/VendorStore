@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 16px;
+}
+
+.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+}
+
+.emptyText {
+    font-size: 13px;
+    color: #9ca3af;
+    text-align: center;
+}
+
+/* desktop — three columns */
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+        padding: 24px;
+    }
+}

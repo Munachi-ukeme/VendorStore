@@ -17,9 +17,14 @@ function Topbar ({ onOpen}){
         pageTitle = "Categories"
     } else if(location.pathname === "/dashboard/settings"){
         pageTitle = "Settings"
+    } else if(location.pathname === "/dashboard/privacypolicy"){
+
+    } else if(location.pathname === "/dashboard/termsofservice"){
+
     } else{
         pageTitle = "Dashboard"
     }
+    
 
     // check plan and return the right badge color class
     let planClass;

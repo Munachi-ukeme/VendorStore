@@ -22,7 +22,10 @@ function DashboardLayout({ children }) {
                 
                     {/* topbar sits above all pafe content */}
                     <Topbar onOpen={handleOpen}/>
-                {children}
+
+                    <div className={styles.pageContent}>
+                        {children}
+                    </div>
             </div>
         </div>
     );

@@ -1,0 +1,170 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #f3f0ff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* image container */
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #f9f8ff;
+}
+
+/* image container */
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #f9f8ff;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* no image placeholder */
+.noImage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #9ca3af;
+    background-color: #f5f3ff;
+}
+
+/* stock badge — sits on top of image */
+.inStockBadge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 3px 8px;
+    background-color: #f0fdf4;
+    color: #15803d;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 20px;
+    border: 1px solid #bbf7d0;
+}
+
+.soldOutBadge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 3px 8px;
+    background-color: rgba(254, 242, 242, 0.9);
+    color: #dc2626;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 20px;
+    border: 1px solid #fecaca;
+}
+
+/* product info below image */
+.info {
+    padding: 10px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e1b2e;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #7c3aed;
+}
+
+/* view product button */
+.viewButton {
+    width: 100%;
+    padding: 8px;
+    background-color: #7c3aed;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: auto;
+}
+
+.viewButton:hover {
+    background-color: #6d28d9;
+}
+
+/* disabled button for sold out products */
+.viewButtonDisabled {
+    width: 100%;
+    padding: 8px;
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+/* out of stock toast */
+.outOfStockPopup {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1e1b2e;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    z-index: 300;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 0.2s ease;
+}
+
+.outOfStockText {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
