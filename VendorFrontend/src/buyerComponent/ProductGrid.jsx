@@ -21,6 +21,6 @@ function ProductGrid ({ products, slug}) {
             ))}
         </div>
     );
-
-    export default ProductGrid;
 }
+
+export default ProductGrid;

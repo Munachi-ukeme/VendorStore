@@ -9,6 +9,7 @@
     width: 100%;
     overflow: hidden;
     max-height: 180px;
+    margin-bottom: 15px;
 }
 
 .bannerImage {

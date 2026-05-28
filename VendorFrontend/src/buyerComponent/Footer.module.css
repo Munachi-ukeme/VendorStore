@@ -1,0 +1,99 @@
+
+.footer {
+    background-color: #ffffff;
+    border-top: 1px solid #f3f0ff;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.storeInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid #ede9fe;
+}
+
+.businessName {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e1b2e;
+    text-align: center;
+}
+
+.tagline {
+    font-size: 11px;
+    color: #7c3aed;
+    text-align: center;
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.contactLink {
+    font-size: 12px;
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contactLink:hover {
+    text-decoration: underline;
+}
+
+.address {
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.legal {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legalLink {
+    font-size: 11px;
+    color: #9ca3af;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-weight: 500;
+}
+
+.legalLink:hover {
+    color: #7c3aed;
+}
+
+.dot {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.poweredBy {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.moonstore {
+    color: #7c3aed;
+    font-weight: 700;
+}

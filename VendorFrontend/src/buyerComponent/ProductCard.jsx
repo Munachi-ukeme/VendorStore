@@ -52,13 +52,13 @@ function ProductCard({ product, slug}){
                 }
                 onClick={handleClick}
                 >
-                    {product.inStock ? "View Product" : "Out of Stock"}
+                    View Product
                 </button>
             </div>
         </div>
 
-        // out of stock toast pop up
-        {setShowOutOfStock ? (
+        {/* out of stock toast pop up */}
+        {showOutOfStock ? (
             <div className={styles.outOfStockPopup}>
             <p className={styles.outOfStockText}> Out of stock. Check back later</p>
             </div>

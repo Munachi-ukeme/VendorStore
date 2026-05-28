@@ -9,6 +9,7 @@ import ProductPage from "./pages/ProductsPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService"
+import StorePage from "./pages/StorePage";
 
 function App(){
   return (
@@ -20,7 +21,7 @@ function App(){
       <Route path="/" element={<LoginPage />}/>
 
       {/* Public buyer routes */}
-      <Route path="/:slug" element={<div>Store Page</div>}/>
+      <Route path="/:slug" element={<StorePage />}/>
       <Route path="/:slug/:productSlug" element={<div>Product Page</div>}/>
       <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
       <Route path="/terms-of-service" element={<TermsOfService />}/>
