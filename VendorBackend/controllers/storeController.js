@@ -161,9 +161,8 @@ const getProduct = async (req, res) => {
         seller.logo = logoResult.secure_url
       }
 
-      //5. Upload banner - pro and premium only
+      //5. Upload banner
       if(req.files && req.files.bannerImage) {
-        if (seller.plan === "pro" || seller.plan === "premium"){
           const bannerResult = await cloudinary.uploader.upload(
             req.files.bannerImage[0].path,
             {
@@ -171,7 +170,6 @@ const getProduct = async (req, res) => {
             }
           )
           seller.bannerImage = bannerResult.secure_url
-        }
       }
 
       //6. save updated seller to mongoDB
