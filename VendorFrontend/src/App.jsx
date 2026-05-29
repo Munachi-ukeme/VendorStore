@@ -5,11 +5,12 @@ import LoginPage from "./pages/LoginPage";
 import DashboardLayout from "./sellerComponent/DashboardLayout";
 import DashboardPage from "./pages/DashboardPage";
 import SettingsPage from "./pages/SettingsPage";
-import ProductPage from "./pages/ProductsPage";
+import ProductsPage from "./pages/ProductsPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService"
 import StorePage from "./pages/StorePage";
+import ProductPage from "./pages/ProductPage";
 
 function App(){
   return (
@@ -22,7 +23,7 @@ function App(){
 
       {/* Public buyer routes */}
       <Route path="/:slug" element={<StorePage />}/>
-      <Route path="/:slug/:productSlug" element={<div>Product Page</div>}/>
+      <Route path="/:slug/:productSlug" element={<ProductPage />}/>
       <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
       <Route path="/terms-of-service" element={<TermsOfService />}/>
 
@@ -42,7 +43,7 @@ function App(){
       <Route path="/dashboard/products" element={
         <ProtectedRoute>
           <DashboardLayout>
-            <ProductPage/>
+            <ProductsPage/>
           </DashboardLayout>
         </ProtectedRoute>
         }/>

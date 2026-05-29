@@ -236,8 +236,8 @@ return(
         />
     </div>
 
-    {/* banner image - pro and premium only */}
-    {(seller?.plan === "pro" || seller?.plan === "premium") ? (
+    {/* banner image  */}
+    
         <div className={styles.field}>
             <label className={styles.label}>Banner Image</label>
             <input
@@ -247,7 +247,7 @@ return(
             onChange={(e) => setBanner(e.target.files[0])}
             />
         </div>
-    ) : null}
+
 
     {/* brand colors - pro and premium only */}
     {(seller?.plan === "pro" || seller?.plan === "premium") ? (

@@ -4,7 +4,7 @@ import ProductForm from "../sellerComponent/ProductForm";
 import ProductTable from "../sellerComponent/ProductTable";
 import styles from "./ProductsPage.module.css";
 
-function ProductPage (){
+function ProductsPage (){
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [showForm, setShowForm] = useState (false);
@@ -138,4 +138,4 @@ function ProductPage (){
     );
 }
 
-export default ProductPage;
+export default ProductsPage;
