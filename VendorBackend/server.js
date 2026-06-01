@@ -44,11 +44,17 @@ const generalLimiter = rateLimit({
 // apply general limiter to all routes
 app.use(generalLimiter);
 
-// body parser
 
-// // Middleware
-// app.use(cors());
-app.use(express.json()); // allows app to read JSON from requests
+app.use(express.json({
+    verify: (req, res, buf) => {
+        // If the incoming request is going to our webhook path, save the raw text string!
+        if (req.originalUrl.includes('/webhook')) {
+            req.rawBody = buf.toString();
+        }
+    }
+}));
+
+app.use(express.urlencoded({ extended: true })); // allows app to read JSON from requests
 
 //Routes
 const authRoutes = require("./routes/auth")
@@ -57,6 +63,7 @@ const productRoutes = require("./routes/products")
 const storeRoutes = require("./routes/store")
 const adminRoutes = require("./routes/admin")
 const sellerRoutes = require("./routes/seller")
+const paymentRoutes = require("./routes/payments");
 
 
 app.use("/api/auth", authRoutes)
@@ -65,6 +72,8 @@ app.use("/api/products", productRoutes)
 app.use("/api/store", storeRoutes)
 app.use("/api/admin", adminRoutes);
 app.use("/api/seller", sellerRoutes)
+app.use("/api/payments", paymentRoutes);
+
 
 
 // test route

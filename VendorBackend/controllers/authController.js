@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator")
 const Seller = require("../models/Seller");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { createSubaccount } = require("../controllers/paymentController");
 
 //helper function - convert business name to slug
 // "Chinwe Fashion" -> "chinwe-fashion"
@@ -26,13 +27,22 @@ const generateReferralCode = () =>{
 const registerSeller = async(req, res) =>{
     try{
 
-        // check for validation errors
+        
+  // check for validation errors
 const errors = validationResult(req)
 if (!errors.isEmpty()) {
   return res.status(400).json({ message: errors.array()[0].msg })
 }
 
-        const {businessName, email, password, whatsappNumber, plan } = req.body
+        const {businessName, email, password, whatsappNumber, plan, referredBy, bankDetails } = req.body
+
+        //check if seller input their bank details
+        if (!bankDetails || !bankDetails.accountNumber || !bankDetails.bankCode) {
+         // Stop right here and tell the user what they did wrong
+         return res.status(400).json({ 
+        message: "Registration failed. You must provide a valid bank account number and select a bank." 
+          });
+            }
 
         //1. Check if email already exists
         const existingSeller = await Seller.findOne({email})
@@ -83,7 +93,28 @@ if (!errors.isEmpty()) {
       whatsappNumber,
       slug,
       plan: plan || "basic", // defaults to basic if not specified
+      bankDetails,
+      referralCode,
+      referredBy: validReferredBy
     })
+
+    if (
+    seller.bankDetails &&
+    seller.bankDetails.accountNumber &&
+    seller.bankDetails.bankCode
+       ) {
+        const subResult = await createSubaccount(
+        seller.businessName,
+        seller.bankDetails.accountNumber,
+        seller.bankDetails.bankCode
+    );
+
+    if (!subResult.error) {
+        seller.paystackSubaccountCode = subResult.subaccountCode;
+        await seller.save();
+    }
+
+       }
 
     // 8. Generate JWT token
     const token = jwt.sign(
@@ -112,7 +143,7 @@ if (!errors.isEmpty()) {
       },
     })
 
-    } catch (error) {
+  } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
@@ -169,8 +200,6 @@ if (!errors.isEmpty()) {
         address: seller.address,
         logo: seller.logo,
         bannerImage: seller.bannerImage,
-        primaryColor: seller.primaryColor,
-        secondaryColor: seller.secondaryColor,
         referralCode: seller.referralCode,        
         commissionBalance: seller.commissionBalance,
         totalEarned: seller.totalEarned,

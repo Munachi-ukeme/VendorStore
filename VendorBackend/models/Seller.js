@@ -33,7 +33,7 @@ const sellerSchema = new mongoose.Schema(
 
         bannerImage: {
             type: String,
-            default: "", // pro and premium only
+            default: "", 
         },
 
         tagline: {
@@ -46,15 +46,6 @@ const sellerSchema = new mongoose.Schema(
             required: true,
         },
 
-        primaryColor: {
-            type: String,
-            default: "#D4500A" ,//pro and premuim
-        },
-
-        secondaryColor: {
-            type: String, 
-            default: "#F5F0EB" //pro and premium only
-        },
 
         plan: {
             type: String,
@@ -74,7 +65,7 @@ const sellerSchema = new mongoose.Schema(
 
     isActive: {
       type: Boolean,
-      default: true, // store is active by default when created
+      default: false, // store is not active by default when created
     },
 
     subscriptionStart: {
@@ -92,7 +83,6 @@ const sellerSchema = new mongoose.Schema(
         type: String,
         unique: true,
         sparse: true, //allow multiple null values without unique conflict
-        default: null,
     },
 
     referredBy:{
@@ -116,6 +106,16 @@ const sellerSchema = new mongoose.Schema(
         default: 0,
     },
 
+    paystackSubaccountCode: {
+        type: String,
+        default: null
+    },
+
+    paystackCustomerId: {
+        type: String,
+        default: null
+    },
+
     // bank details for commission payout
     bankDetails: {
         accountName: {
@@ -131,6 +131,11 @@ const sellerSchema = new mongoose.Schema(
         bankName: {
             type: String,
             default: "",
+        },
+
+        bankCode: {
+            type: String,
+            default: ""
         },
     },
 

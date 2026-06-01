@@ -66,6 +66,11 @@ const getProduct = async (req, res) => {
       return res.status(404).json({ message: "Store not found" })
     }
 
+    //Safety check so buyers cannot browse single product pages of expired/inactive stores
+    if (!seller.isActive) {
+      return res.status(403).json({ message: "This store is currently inactive" })
+    }
+
     // 2. Find product by slug
     const product = await Product.findOne({
       sellerId: seller._id,
@@ -139,19 +144,8 @@ const getProduct = async (req, res) => {
         seller.bankDetails.bankName = req.body.bankName
       }
 
-      //3. Update brand colors - pro and premium only
-      if (seller.plan === "pro" || seller.plan === "premium") {
-        if(req.body.primaryColor){
-          seller.primaryColor = req.body.primaryColor
-        }
-
-        if (req.body.secondaryColor) {
-          seller.secondaryColor = req.body.secondaryColor
-        }
-      }
-
       //4. Upload logo to cloudinary if a new one was sent
-      if (req.files && req.files.logo){
+      if (req.files && req.files.logo && req.files.logo.length > 0){
         const logoResult = await cloudinary.uploader.upload(
           req.files.logo[0].path,
           {
@@ -162,7 +156,7 @@ const getProduct = async (req, res) => {
       }
 
       //5. Upload banner
-      if(req.files && req.files.bannerImage) {
+      if(req.files && req.files.bannerImage  && req.files.bannerImage.length > 0) {
           const bannerResult = await cloudinary.uploader.upload(
             req.files.bannerImage[0].path,
             {
