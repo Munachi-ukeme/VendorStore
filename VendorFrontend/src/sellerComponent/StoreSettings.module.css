@@ -68,21 +68,6 @@
     background-color: #ffffff;
 }
 
-/* color inputs side by side */
-.colors{
-    display: flex;
-    gap: 20px;
-}
-
-.colorInput{
-    width: 60px;
-    height: 40px;
-    border: 1.5px solid #ddd6fe;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #faf8ff;
-}
-
 /* save button*/
 .saveButton{
     width: 100%;

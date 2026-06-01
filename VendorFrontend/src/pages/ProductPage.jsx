@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProduct, getStore } from "../api/api";
-import { buildWhatsAppURL} from "../utils/Whatsapp";
 import styles from "./ProductPage.module.css";
 import Navbar from "../buyerComponent/Navbar";
 
@@ -122,18 +121,7 @@ function ProductPage() {
         }
     };
 
-    const handleOrderNow = () =>{
-        const url = buildWhatsAppURL({
-            whatsappNumber: store.whatsappNumber,
-            productImage: product.images[currentImage] || product.images[0] ||"",
-            productName: product.name,
-            price: product.price,
-            color: selectedColor,
-            size: selectedSize,
-            quantity,
-        });
-        window.open(url, "_blank");
-    };
+
 
     const handleCopyLink = () =>{
         navigator.clipboard.writeText(window.location.href);
@@ -310,9 +298,9 @@ function ProductPage() {
                     {/* order now button */}
                         <button
                             className={styles.orderBtn}
-                            onClick={handleOrderNow}
+                            onClick={}
                         >
-                            Order via WhatsApp
+                            
                         </button>
                     
 

@@ -249,32 +249,6 @@ return(
         </div>
 
 
-    {/* brand colors - pro and premium only */}
-    {(seller?.plan === "pro" || seller?.plan === "premium") ? (
-        <div className={styles.colors}>
-            <div className={styles.field}>
-                <label className={styles.label}>Primary Color</label>
-                <input
-                type="color"
-                className={styles.colorInput}
-                value={primaryColor}
-                onChange={(e) => setPrimaryColor(e.target.value)}
-                />
-            </div>
-
-            <div className={styles.field}>
-                <label className={styles.label}>Secondary Color</label>
-                <input
-                type="color"
-                className={styles.colorInput}
-                value={secondaryColor}
-                onChange={(e) => setSecondaryColor(e.target.value)}
-                />
-            </div>
-
-        </div>
-    ) : null}
-
     {/* save button */}
     <button
     className={styles.saveButton}
